@@ -1,0 +1,21 @@
+# Make PCA
+
+$call	relink
+$exit
+
+update:
+	$call	relink
+	$call	install
+	;
+
+relink:
+	$omake	pca.x
+	$omake	output.x
+	$omake	mh.f
+	$link	pca.o output.o mh.o -o xx_pca.e
+	;
+
+install:
+#	$move	xx_pca.e   mtoolsbin$x_pca.e
+	$move	xx_pca.e   ../bin$(arch)/x_pca.e
+	;

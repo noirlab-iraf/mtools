@@ -1,0 +1,183 @@
+	    Installation Instructions for the MTOOLS Package
+
+The MTOOLS package (version 5Mar98) contains a hodge-podge of various IRAF
+tasks by Jeff Munn (send bug reports to jam@nofs.navy.mil), combined together
+in this one package.  Some of these are simply variations of other IRAF tasks.
+The package is comprised of the following tasks:
+
+       airchart - Plot airmass curves
+	  chart - Interactively chart 2-dimensional data
+       defitize - Convert all FITS files in currect directory to images
+         fitize - Convert all images in current directory to FITS files
+	 format - Format the standard input and pass it to the standard output
+	gki2mng - Convert a GKI metacode file to MONGO input
+	mysplot - Version of SPLOT with line identifying features
+            pca - Principal components analysis
+
+The tasks span a range of usefulness and robustness, from the silly (fitize,
+defitize) to "I couldn't do anything without it" (chart), and from the robust
+(chart) to the semi-robust (gki2mng).  This distribution was really put
+together for old grad-school colleagues, who wanted copies after obtaining
+their freedom and flying off to greener pastures.  Thus, harbor no illusions
+about this being a well supported, elegantly structured, bug free package.
+Its simply a collection of tasks which are general in nature and proved
+sufficiently useful at some point that they haven't been purged.  Its made
+available here primarily because of continued interest in the tasks chart,
+airchart, and mysplot.  Below is a short critique of the usefulness and
+robustness of each task:
+
+airchart    -- Very useful for planning observing runs.  Robust.
+chart       -- Very useful for maintaining and interacting with simple text
+               file relational databases.  Robust.
+defitize/fitize -- Mostless useless.  Used primarily when transporting
+               large numbers of FITS files, but it became much less interesting
+	       once one was able to set imhdr=HDR$, and even less interesting
+	       with the FITS kernel in v2.11.  Still useful to copy
+	       directories with ".imh" files across machines with different
+	       byte ordering.  Robust.
+format      -- Outdated.  New printf routines in IRAF 2.10 mostly supercede it.
+               Semi-robust.
+gki2mng     -- Useful.  Doesn't convert everything, but enough that its easy
+               to generate publication quality plots from IRAF plots.
+	       Semi-robust.
+mysplot     -- Useful.  Robust.  Works with 2.11.
+pca         -- Useful.  Robust.  Just an IRAF wrapper for Murtaugh and Heck
+               code.
+
+These instructions describe how to install MTOOLS either as a user package or
+as a layered (external) package to IRAF.  A user package can be installed by
+any user, and is only available to users if their "loginuser.cl" files contain
+the necessary additions.  A layered package is layered on as part of IRAF and
+is available to all IRAF users without any changes to their "loginuser.cl"
+file.  A layered package can only be installed by the IRAF user.  Documentation
+on layered software is found in the Site Manager's Guide that accompanied your
+IRAF distribution.  
+
+[1] The package is distributed as a tar archive; IRAF is distributed
+    with a tar reader.  The tar archive may be obtained by anonymous ftp.
+    To obtain the package via ftp (assuming a UNIX computer):
+
+	% ftp ftp.nofs.navy.mil
+	login: anonymous
+	password: [your e-mail address]
+	ftp> cd pub/outgoing/jam
+	ftp> get README.mtools
+	ftp> binary
+
+    The package is available as both a UNIX compressed and GNU compressed
+    tar file.  Thus, depending on your preference, do one of the following:
+
+	ftp> get mtools.tar.gz
+	ftp> quit
+	% gunzip mtools.tar.gz
+
+    or
+
+	ftp> get mtools.tar.Z
+	ftp> quit
+	% uncompress mtools.tar.Z
+
+    If your name server doesn't recognize "ftp.nofs.navy.mil", then try
+    "ftp 192.68.148.67".
+
+    Precompiled binaries are available for some platforms (RedHat at least).
+    Look in the directory for your platform.  For example, for RedHat the files
+    are called "mtools.redhat.tar.gz" and "mtools.redhat.tar.Z".
+
+[2] Create a directory to contain the MTOOLS external package files.  This
+    directory should be outside the IRAF directory tree.  If MTOOLS is being
+    installed as a layered package, then the directory must be owned
+    by the IRAF account.  In the following examples, this root directory
+    is named /local/mtools/ (UNIX).  Make the appropriate file name
+    substitutions for your site.
+
+[3] If MTOOLS is being installed as a user package, then this step can be
+    skipped.  If MTOOLS is being installed as a layered package, then the
+    IRAF system must be made aware of its existence by adding it to the list
+    of external packages.  Log in as IRAF and edit the extern.pkg file in the
+    hlib directory to define the package to the CL.  From the IRAF account,
+    outside the CL, you can move to this directory with the commands:
+
+	% cd $hlib
+
+    Define the environment variable mtools to be the pathname to the mtools
+    root directory.  The '$' character must be escaped in the VMS pathname;
+    UNIX pathnames must be terminated with a '/'.  Edit extern.pkg to include:
+
+	reset mtools     = /local/mtools/
+
+	task  $mtools.pkg = mtools$mtools.cl
+
+    Near the end of the hlib$extern.pkg file, update the definition of helpdb
+    so it includes the mtools help database, copying the syntax already used
+    in the string.  Add this line before the line containing a closing quote:
+        
+                ,mtools$lib/helpdb.mip\
+
+
+[4] Log into the CL from the IRAF account (if MTOOLS is being installed as a
+    layered package) or from the user's account (if MTOOLS is being installed
+    as a user's package), and unpack the archive file.  Change
+    directories to the MTOOLS root directory created above and use 'rtar':
+
+	cl> cd mtools
+	cl> softools
+	cl> rtar -xrf mtools.tar
+
+    Leave the symbolic link 'bin' in the MTOOLS root directory pointing to
+    'bin.generic', but you can delete any of the bin.`mach' directories that
+    won't be used.  The archive file can be deleted once the package has been
+    successfully installed.
+
+    If you fetched the precompile binaries, then unpack the archive file in
+    the bin directory for your platform.  For example, for RedHat:
+
+        cl> cd mtools
+        cl> cd bin.redhat
+        cl> rtar -xrf mtools.redhat.tar
+
+[5] When the archive has been unpacked, build the MTOOLS package
+    executable.  The compilation and linking of the MTOOLS package is
+    done using the following command:
+
+	cl> mkpkg -p noao update >& spool &
+
+    NOTE: On systems that concurrently support different architectures
+    (e.g., Suns, Convex), you must configure the system for the desired
+    architecture before issuing the above command.  SUN/IRAF sites must
+    execute a pair of 'mkpkg' commands for each supported architecture type.
+    The Unix environment variable IRAFARCH must be set as well before
+    compiling.  For example:
+
+	# Assuming IRAFARCH is set to sparc
+	cl> mkpkg sparc
+	cl> mkpkg -p noao update >& mtools.sparc &
+	cl> mkpkg f68881
+	# Now reset IRAFARCH to f68881 before continuing
+	cl> mkpkg -p noao update >& mtools.f68881 &
+
+    The spool file(s) should be reviewed upon completion to make sure there
+    were no errors.  
+
+    NOTE FOR USER PACKAGE: If someone other than the IRAF account is compiling
+    the package (i.e., if MTOOLS is being installed as a user package) then
+    certain enviroment variables must be set.  In Unix, before entering CL,
+    type the following:
+
+	# Substitute the appropriate path to the IRAF root directory below
+	% setenv iraf /local/iraf/
+	% source $iraf/unix/hlib/irafuser.csh
+
+    On a Sun, the architecture must also be specified.
+
+	# Substitute f68881 or ffpa for sparc below if necessary
+   	%setenv IRAFARCH sparc
+
+[6] If MTOOLS was installed as a layered package then this step can be skipped.
+    If it was installed as a users package, then each user wanting access to
+    the package needs to put the following lines into his/her "loginuser.cl"
+    file, somewhere before the "keep" command.
+
+	reset	mtools		= /local/mtools/
+	task	mtools.pkg	= mtools$mtools.cl
+	reset	helpdb		= (envget("helpdb") //",mtools$lib/helpdb.mip")

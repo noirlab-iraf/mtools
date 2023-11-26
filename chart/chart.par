@@ -1,0 +1,49 @@
+database,f,a,,,,"Input database"
+cutoff1,s,h,"",,,"First sample cutoff"
+cutoff2,s,h,"",,,"Second sample cutoff"
+cutoff3,s,h,"",,,"Third sample cutoff"
+cutoff4,s,h,"",,,"Fourth sample cutoff"
+logic,s,h,"and",|and|or|,,"Cutoff logic"
+marker1,s,h,"",,,"First special marker definition"
+marker2,s,h,"",,,"Second special marker definition"
+marker3,s,h,"",,,"Third special marker definition"
+marker4,s,h,"",,,"Fourth special marker definition"
+marker5,s,h,"",,,"Fifth special marker definition"
+marker6,s,h,"",,,"Sixth special marker definition"
+marker7,s,h,"",,,"Seventh special marker definition"
+marker8,s,h,"",,,"Eight special marker definition"
+color1,s,h,"",,,"First special color definition"
+color2,s,h,"",,,"Second special color definition"
+color3,s,h,"",,,"Third special color definition"
+color4,s,h,"",,,"Fourth special color definition"
+color5,s,h,"",,,"Fifth special color definition"
+color6,s,h,"",,,"Sixth special color definition"
+color7,s,h,"",,,"Seventh special color definition"
+color8,s,h,"",,,"Eight special color definition"
+def_marker,s,h,"point",|point|box|plus|cross|diamond|hline|vline|hebar|vebar|circle|ebars|,,"Default marker type"
+mmarker,s,h,"cross",|point|box|plus|cross|diamond|hline|vline|hebar|vebar|circle|ebars|,,"Marker type for marking objects"
+xsize,s,h,"",,,"Function to determine marker x size"
+ysize,s,h,"",,,"Function to determine marker y size"
+sorter,s,h,"",,,"Function used to sort output lists"
+field,s,h,"none",|none|celestial|xy|,,"Field specification"
+xcenter,r,h,INDEF,,,"RA or X of field center"
+ycenter,r,h,INDEF,,,"DEC or Y of field center"
+radius,r,h,INDEF,,,"Radius of field in dd:mm:ss or xy units"
+min_size,r,h,0.04,,,"Minimum marker size in NDC units"
+max_size,r,h,0.01,,,"Maximum marker size in NDC units"
+dbformat,s,h,"",,,"Database format file"
+outformat,s,h,"",,,"Output format file"
+outliers,b,h,yes,,,Mark objects beyond graph limits as arrows
+keys,s,h,"",,,"Graph key description file"
+nbins,i,h,20,,,Number of bins in histogram
+z1,r,h,INDEF,,,Minimum histogram intensity
+z2,r,h,INDEF,,,Maximum histogram intensity
+autoscale,b,h,yes,,,Adjust nbins and z2 for integer data?
+top_closed,b,h,yes,,,Include z2 in the top bin?
+plot_type,s,h,"box","line|box",,Type of vectors to plot in histograms
+log,b,h,no,,,Log scale y-axis for histograms?
+count,i,h,,,,"Size of sample after cuts for last execution"
+device,s,h,"stdgraph",,,"Name of interactive plotting device"
+cursor,*gcur,h,"",,,"Graphics cursor input"
+version,s,h,"5Mar1998",,,
+mode,s,h,"ql",,,

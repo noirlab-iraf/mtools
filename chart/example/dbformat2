@@ -1,0 +1,9 @@
+# Format for "INDICES" files
+image		char	%13s	13		# Image name
+ap		int	%3d	key		# Image aperture
+title		char	%13s	13		# Image title
+CH		real	%6.3f	error	%6.4f	# CH G band index
+CNR		real	%6.3f	error	%6.4f	# CN3880 index
+CNB		real	%6.3f	error	%6.4f	# CN4150 index
+H+K		real	%6.3f	error	%6.4f	# Ca H+K index
+delta		real	%6.3f	error	%6.4f	# 4000 angstrom break

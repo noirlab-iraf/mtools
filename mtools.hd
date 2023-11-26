@@ -1,0 +1,12 @@
+# Help directory for the MTOOLS package.
+
+$defdir		= "mtools$"
+
+airchart	hlp=mtools$airchart/airchart.hlp,src=mtools$airchart/airchart.x
+chart		hlp=mtools$chart/chart.hlp,	 src=mtools$chart/chart.x
+defitize	hlp=mtools$misc/defitize.hlp,	 src=mtools$misc/defitize.cl
+fitize		hlp=mtools$misc/fitize.hlp,	 src=mtools$misc/fitize.cl
+format		hlp=mtools$misc/format.hlp,	 src=mtools$misc/format.x
+gki2mng		hlp=mtools$gki2mng/gki2mng.hlp,  src=mtools$gki2mng/gki2mng.x
+mysplot		hlp=mtools$mysplot/mysplot.hlp,	 src=mtools$mysplot/mysplot.x
+pca		hlp=mtools$pca/pca.hlp,		 src=mtools$pca/pca.x

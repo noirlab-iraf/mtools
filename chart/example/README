@@ -1,0 +1,8 @@
+This directory contains sample files to run with CHART.
+
+database	A sample DATABASE.
+dbformat	A DBFORMAT file describing "database".
+keys		A KEYS description file.
+pds.fmt		An OUTFORMAT file, which outputs in PDS format.
+nessie.fmt	An OUTFORMAT file, which outputs in Nessie format.
+redshifts.fmt	An OUTFORMAT file giving a generic redshift and mags listing.

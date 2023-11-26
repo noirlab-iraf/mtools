@@ -1,0 +1,5 @@
+## CHART output format file for making '*.pat' files.
+FORMAT "%4d F F"
+COUNT
+FORMAT "%7d %7d    %7d %10.3f"
+LOOP X Y NSER NSER

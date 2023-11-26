@@ -1,0 +1,15 @@
+# Format for "*.red" catalogs
+NSER		double	%9.3f
+RA		double	%12.3h
+DEC		double	%12.2h
+U		real	%7.3f
+J		real	%7.3f
+F		real	%7.3f
+N		real	%7.3f
+R1		real	%6.3f
+R2		real	%6.3f
+X		real	%6.3f
+Y		real	%6.3f
+CLASS		char	%5s	5
+ZQUALITY	int	%5d
+Z		real	%7.4f

@@ -1,0 +1,217 @@
+Revisions to CHART.
+
+
+8/11/97	Program would bomb when a sizing function of "err" was used on a
+	function which contained fields lacking errors.  Now we check before
+	applying the err() function to make sure all fields have errors.
+
+6/16/97	Now throw an error if a format string in a dbformat file doesn't start
+	with a %.  This was done largely to detect problems when a description
+	starts with the word "error".
+
+4/1/96	When colors were added, histogramming was disabled due to missed
+	parameter being passed to the histogram function.  Fixed.
+
+8/19/95	Added ability to set marker colors, similar to the way marker types
+	may be set.
+
+8/15/95 spitlist.x
+	Increased maximum size of an expression from 5*SZ_LINE to 10*SZ_LINE.
+
+8/14/95 graph.x
+        Fixed bug introduced yesterday.  When checking for INDEF values when
+	determining plot limits on the y-axis, it was checking the x-array
+	values rather than the y-array values.
+
+8/14/95 postfix.h evaluate.gx parse.x printit.x
+        Grouped different copies of the constant MAXDEPTH declared in
+        individual *.x files into one declaration in "postfix.h".  Increased
+        the value of MAXDEPTH from 100 to 300, allowing longer expressions.
+
+8/13/95 graph.x
+        When calculating plot limits, INDEF values were being counted.
+        Changed to ignore INDEF values.m
+
+3/26/95	dbmisc.x
+	Changed dbprintf so that string fields are automatically enclosed in
+	single quotes when printing.  This accomplishes two purposes, both
+	involving the use of :all, :marked, and :unmarked to save a database
+	(no output format file specified): 1) blank string fields can now be
+	saved --- before they would print out a just blank, so that when that
+	database was next read that line would be missing a field --- now
+	it prints out as '', which is read as a blank field; 2) string fields
+	may be printed which contain enclosed blanks.
+
+2/29/92	cursor.x
+	Added the 'x' option to remove the header info from all plots.
+
+12/31/91 evaluate.gx
+	When exponentiating (i.e. u ** v), if u is negative and errors are
+	asked for, it would bomb when it trys to take ln(u) in evaluating the
+	error.  A partial fix has been installed.  The ln(u) term need only be
+	computed if the error in v is non-zero.  Since v will usually be a
+	constant, it isn't necessary to evaluate the ln(u) term in those cases,
+	as it will only be multiplied by 0.  Thus, this test was added.  It
+	will still bomb if the error in v is non-zero and u is negative.
+
+12/31/91 mark.x unmark.x graph.x cursor.x
+	Fixed bug in calls to draw_mark in "mark.x" and "unmark.x".  Rearranged
+	things so as to remove "ch" from call to draw_mark, instead passing it
+	the value of CH_DEFMARKER(ch).
+
+12/10/91 chart.h chfuncs.x colon.x chart.par cursor.x
+	Increased number of special marker definitions from 4 to 8.  Removed
+	some no-longer-used code from "cursor.x".
+
+12/8/91	graph.x chart.hlp
+	Added the feature that allows a specified marker at a default size
+	to be overplotted by error bars when "defmarker" is set to "ebars".
+
+11/14/91 select.x
+	Fixed bug in the FIELD="celestial" option.  Rather than the proper
+	selection of
+	    ra * 15*cos(dec) - ra_center < radius && dec - dec_center < radius
+	I had
+	    ra * 15/cos(dec) - ra_center < radius && dec - dec_center < radius
+	Thus, the selection by ra was off by a factor of cos(dec)**2.  This
+	was noticed by Nan Ellman on a low declination field (-50), where she
+	was getting egg-shaped rather than round fields.
+
+9/13/91 spitlist.x chfuncs.x readdb.x
+	Replaced calls to my GETBIGLINE with the new system GETLLINE.
+
+9/13/91 spitlist.x
+	Increased size of format string in the :all etc facility that can be
+	read from a format file from SZ_LINE to 5*SZ_LINE.
+
+9/4/91	graph.x
+	Previously, the default axes scaling was based on the values of the
+	points.  If a point had a large marker size, although its center was in
+	the graph, but of the marker could extend beyond the graph limits.
+	Now, the scaling considers the size of the markers (although only when
+	the markers are sized in WCS units).
+
+9/4/91	chart.par
+	Corrected bug by adding "ebars" to enumberated list for def_marker and
+	mmarker.
+
+8/26/91	parse.x printit.x
+	Fixed bug when printing a list.
+
+8/7/91	evaluate.gx dbio.gx readdb.x select.x cursor.x parse.x printit.x
+	histogram.x chart.x gettoken.x token.h spitlist.x postfix.h
+	replace.x dbmisc.x database.h format.x chart.hlp
+	Added support for errors for each field in the database, as well
+	as error calculations for functions, and sizing by the error.
+
+5/2/91	histogram.x
+	Fixed bug in hlist which wouldn't close file after ":list" option.
+
+8/11/90	evaluate.gx, parse.x, gettoken.x, chart.hlp, spitlist.x
+	Added the conditional expression to legal functions
+	(i.e. a < b ? a: b).  Added the absolute value function (abs).
+	Also, the maximum length of a function list (LOOP) was increased from
+	SZ_LINE to 5 * SZ_LINE.
+
+6/26/90	select.x
+	Fixed bug.  Changed declaration of procedure size_axis() in the
+	procedure size_up() from bool to int.
+
+6/26/90	printit.x chart.hlp
+	Fixed a bug that was preventing error messages from being printed in
+	certain instances using the formatted output facilities.  Also updated
+	the help file to explain when functions should be quoted.
+
+6/19/90	Changed function parsing from right associative to left associative.
+	Added the ability to parse multi-variable functions, and as an example
+	of that ability added min(x,y) and max(x,y) as legal intrinsic
+	functions.
+
+6/12/90	Directly sized markers now interpret the sizes as radii, which
+	facilitates their use for error bars.
+
+5/31/90 Rather large revisions.  Much of the structure was revised in an
+	attempt to isolate the database access routines.  More work still
+	needs doing there.  Allowed for different sizing functions for each
+	graph key.  Added sorting function separate from sizing function.
+	Made other changes that I can't remember.  Fixed bug in histogram
+	that lead to error when overplotting histograms with long sample
+	definitions.  Added parameter "mmarker" to allow specifying marker
+	type for marked objects.
+
+4/14/90	Added separate x and y size parameters, as well as allowing them to
+	directly specify the marker size in WCS units.  Also added "outliers"
+	parameter, allowing user to choose whether or not to mark objects
+	that lie outside the graph limits.  Also added the "ebars" marker type,
+	to accomodate x- and y- error bars together.  Also gave each graph
+	key its own GTOOLS, so that graphs can be formatted separately.
+
+3/30/90	Changed token parsing.  Before, when parsing a string, the first
+	database field name that matches would be chosen.  Thus, if the
+	database had fields "U" and "Uap", it would not be possible to find
+	"Uap" in a string.  Now the longest matching field name is selected.
+	Also added the 'p' key, which prints the complete catalog info for
+	the cursor-selected point.
+
+3/27/90 Increased maximum line length for reading a database.
+
+2/20/90	Re-incorporated the histogram facility.  Now includes overplotting of
+	histograms, integrated histograms, autoscaling for integer data,
+	choice of box or point histograms, and a generally nicer presentation.
+
+12/7/89 Cleaned up some string allocations and handling, using more appropriate
+	string lengths.  Gave GET_STRDIC an input parameter specifying the
+	maximum length of the output string.  Changed the name of
+	IDX_VARIABLE to IDX_FIELD to keep consistent with previous changes
+	in nomenclature.
+
+12/5/89	Changed CH_SZFUNCTION from 20 to 80, allowing longer function strings.
+
+11/3/89	Major revision.  Function strings are no longer parsed and evaluated
+	simultaneously.  They are now compiled into a set of postfix commands.
+	This set of commands is then executed completely for a given database
+	entry before beginning evaluation for the next database entry, rather
+	than executing for all objects in the database at once.  The program
+	should be much more rigorous to errors.  The help file has been changed
+	to use "database" terminology, reflecting the program's character as a
+	database management facility.  The histogram facility needs to be
+	reincorporated into the program.
+
+6/10/89	Fixed bug in parsing "!" in expressions.
+
+4/27/89 Changed labelling of plots.  Before cutoff equations or marker
+	definitions could be cut off.
+
+4/18/89	Changed reading of "keys" file.  If range not fully specified, then
+	unspecified parts assumed to be INDEF.
+
+4/18/89	Changing histogram binning.  Before, if using z1=INDEF and z2=INDEF,
+	the upper extent of the last bin was zet equal to the maximum value.
+	Since bins are defined as min <= value < max, then anything with
+	the maximum value was bumped into the bin higher then the last bin,
+	and was therefore not plotted.  Now adding 1 percent to either end
+	of range when z1 or z2 are chosen as indefinite (i.e. if z1 = 0 and
+	z2 = INDEF, then the actual values will be z1 = 0 and
+	z2 = max + 0.01 * abs(max-z1)).
+
+3/15/89	Changed "chart.hlp".
+
+3/15/89 Updated "chart.key" (it said nothing about the generic printing
+	commands).
+
+3/13/89	Now keeping track of indefinite values throughout entire program,
+	including plotting.  Default plotting ranges exclude INDEF points.
+
+3/13/89	Points beyond ranges of plot are plotted on the edges of the plots.
+
+3/7/89	Added substring operators "?=" and "!?" in expressions.
+
+3/6/89	In pr_flist (see above), when printing an indefinite valued variable,
+	its value wasn't perfectly indefinite and so rather than print INDEF
+	it would print a large number, very close to the appropriate indefinite
+	value.  Changed program so that any number within 10 percent of the
+	indefinite value for its type would print out as INDEF.
+
+3/6/89	Fixed bug in pr_flist, which was called by ":[g]all, :[g]marked,
+	and :[g]unmarked" to print out function values.  String functions
+	were printing gibberish because of a missing pointer.

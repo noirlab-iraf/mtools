@@ -1,0 +1,73 @@
+.help airchart Nov88 mtools
+.ih
+NAME
+airchart -- Plot airmass curves
+.ih
+USAGE
+airchart input
+.ih
+PARAMETERS
+.ls input
+The name of an input file with object names and celestial coordinates
+whose airmass is to be plotted.
+.le
+.ls year
+Year of the observation.
+.le
+.ls month
+Month of the observation.  Enter the name of the month, capitalized (i.e.
+January, February, etc).
+.le
+.ls day		  
+The day of the month of the observation (UT date).
+.le
+.ls site
+The name of the site where the observation will be made.  This shouldn't
+exceed 10 characters in length, and is simply used in labeling the plot.
+.le
+.ls longitude
+The west longitude of the site in degrees.
+.le
+.ls latitude
+The latitude of the site in degrees.
+.le
+.ls time_zone
+The difference in hours between the local zone time and Universal Time.
+For example, Kitt Peak is 7 hours behind Universal Time.
+Thus, \fItime_zone\fR = 7.
+.le
+.ls device = "stdgraph"
+The output graphics device.
+.le
+.ih
+DESCRIPTION
+AIRCHART plots a set of airmass curves for a list objects at a given
+site on a given night.  The necessary site information is specified in the
+parameters \fIsite\fR, \fIlongitue\fR, \fIlatitude\fR and \fItime_zone\fR.
+The UT date of the observation is specified by the parameters \fIyear\fR,
+\fImonth\fR and \fIday\fR.  The set of objects to plot airmass curves
+are listed in the file \fIinput\fR.  Each line in the file should specify
+a field name, right ascension (in hours), declination (in degress),
+and equinox (in degrees), all
+separated by white space.  STDIN may be specified as the input file to enter
+the objects from the terminal.  The local zone times for morning and evening
+astronomical twilight are determined and printed in the plot header, along
+with the celestial coordinates of the moon, its rise and set times, and the
+illuminated fraction of its disk.  For each object in the input file, its
+airmass curve is plotted beginning a half hour before evening astronomical
+twilight and finishing a half hour after morning astronomical twilight.
+The maximum airmass plotted is 2.5.  The local mean sidereal time is
+marked across the top axis of the plot.
+.ih
+EXAMPLES
+To plot airmass curves for the North celestial pole and the vernal equinox
+at Kitt Peak on the night of April 4, 1988 (UT date April 5, 1988):
+
+.nf
+    cl> airchart STDIN year=1988 month=April day=5 site=KPNO \
+	longitude=111.595 latitude=31.958 time_zone=7
+    NorthPole  00:00:00  90:00:00 2000
+    VernalEq   00:00:00  00:00:00 2000
+    EOF
+.fi
+.endhelp

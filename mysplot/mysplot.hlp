@@ -1,0 +1,165 @@
+.help mysplot Aug92 mtools
+.ih
+NAME
+mysplot -- \fBsplot\fR with line identification and redshift determination
+.ih
+USAGE	
+mysplot images
+.ih
+PARAMETERS
+
+All of the other parameters for \fBsplot\fR are also parameters for this task.
+The following additional parameters are part of this task:
+.ls shifted_lines = ""
+The name of a file containing a list of emission and absorption lines.
+Each line contains three fields separated by blanks: a rest wavelength,
+an integer
+indicating whether that line is seen in emission (1) or absorption (2), and
+an optional character string identifying the line.  These lines, when plotted
+over the spectrum, will be redshifted according to the current redshift.
+.le
+.ls unshifted_lines = ""
+The name of a file containing a list of emission and absorption lines.  The
+format of the file is the same as that for \fIshifted_lines\fR.  These lines,
+however, are not redshifted.  Thus this file should contain a list of sky and
+telluric lines.
+.le
+.ls line_units
+The units for the wavelengths in \fIshifted_lines\fR and \fIunshifted_lines\fR.
+All feature labels and user identifications will be in these units, regardless
+of the plotting \fIunits\fR used.  This must be a simple wavelength unit
+(i.e., angstroms or microns rather than hertz or km/s) for the redshifting
+options to work properly.
+.le
+.ls show_shifted = no
+Show the shifted features listed in \fIshifted_lines\fR when the
+program starts up.
+.le
+.ls show_unshifted = no
+Show the unshifted features listed in \fIunshifted_lines\fR when the
+program starts up.
+.le
+.ls label_type = "wavelength"
+Type of labeling for the features listed in \fIshifted_lines\fR.  The options
+are "wavelength" and "name".
+.le
+.ih
+DESCRIPTION
+This is an extension of \fBsplot\fR which allows the user to
+identify spectral features and determine redshifts.
+All of the normal functions of \fBsplot\fR are available with this task, as
+well as the additional functions described below.
+
+Lists of features can be entered with the files \fIshifted_lines\fR and
+\fIunshifted_lines\fR.  Each line in the file should contain three fields: the
+rest-frame wavelength of the feature, an integer indicating whether the
+feature is an absorption (1) or emission (2) feature, and an optional
+character string identifying the feature.  These features may be marked on the
+spectrum under a variety of options.  \fIShifted_lines\fR should contain a list
+of features expected to be seen in the object spectra.  These features will be
+redshifted using the current value of the redshift, and plotted accordingly.
+\fIUnshifted_lines\fR should contain features that are locally superimposed
+on the
+object spectra, such as night sky lines and telluric lines.  These features
+will not be redshifted, but rather will be plotted at their rest-frame
+wavelength.
+
+There are two ways that a redshift can be specified.
+A redshift can be entered directly using the '^' command.
+The most useful way however is to mark a line in the spectrum and assign it
+a wavelength from the list of features in \fIshifted_lines\fR, from which a
+redshift is then calculated.  Mark a feature using one of the usual
+\fBsplot\fR equivalent width
+determining keystrokes ('d', 'e', 'h', 'k').  Then use '@' to assign
+a rest wavelength to that feature.  '@' will prompt for the rest wavelength,
+which must be one of the wavelengths in \fIshifted_lines\fR.  The nearest
+matching wavelength will be used to calculate the redshift, the redshift will
+be indicated, and any marked features will be updated to the new redshift.
+
+The parameters \fIshow_shifted\fR and \fIshow_unshifted\fR determine whether
+features are marked when
+the program starts.  The key strokes ']' and '[' then toggle whether shifted
+and unshifted features, respectively, are or are
+not marked.  Individual lines can be removed using '_', and
+redisplayed using '+'.
+
+Features in \fIshifted_lines\fR can be labeled by either their name or their
+wavelength.  The parameter \fIlabel_type\fR determines the initial labeling
+scheme, though it may be changed while running the program with '}'.  The
+features in \fIunshifted_lines\fR are always labeled with their names, both to
+distinguish them from the redshifted lines, and because names are probably
+more relevant for these lines.  Although initially the labels are plotted
+vertically, they may be changed to horizontal using '{'.
+
+Additional unshifted features can be marked using '*'.  This is particularly
+useful for
+marking cosmic rays.  These features are always plotted at their rest-frame
+wavelengths, and are lost when a new spectrum is plotted.  The user is prompted
+for the label to attach to these features.
+
+The x-axis may be displayed with a linear or log scaling.  The program
+starts with a linear scaling.  The two options may be toggled using '!'.
+
+The following keystrokes are active in addition to the normal \fBsplot\fR
+cursor functions:
+.ls !
+Toggles between linear or log x-axis scaling.  The initial display is linear.
+.le
+.ls ^
+Enter a new value for the redshift/velocity.  The program will prompt the
+user for the redshift/velocity.  If the value is less than 10, then it is
+assumed to be a redshift.  Otherwise it is assumed to be an observed velocity.
+Velocities must be entered in km/s.
+.le
+.ls |
+Display the current value for the redshift and velocity.
+.le
+.ls @
+Assign a rest wavelength to the last feature for which an equivalent width and
+line center was determined
+(with 'd', 'e', 'h', or 'k').  The wavelength must be
+listed in \fIshifted_lines\fR to be identified.  The nearest wavelength in the
+list will be used to calculate a new redshift.  The wavelength should be
+entered in the original units (\fIline_units\fR), not the current plotting
+units (\fIunits\fR).  The redshift will be displayed,
+and marked features adjusted to reflect the new redshift.  The user will also
+be prompted whether or not to save this value.  If so, then the rest
+wavelength and redshift are written to \fIsave_file\fR.
+.le
+.ls *
+Put a mark above the spectrum at the cursor y-position.  This is intended
+for marking cosmic rays, night sky lines, etc.  The user is prompted for the
+mark label.  The default label is "CR", for "cosmic ray".  These marks are
+not redshifted.  They are forgotten when a new spectrum is plotted.
+.le
+.ls ]
+Toggle whether shifted features (those in \fIshifted_lines\fR) are marked or
+not.  Emission lines are marked above the current spectrum,
+and absorption lines below.
+.le
+.ls [
+Toggle whether unshifted features (those in \fIunshifted_lines\fR) are marked
+or not.
+.le
+.ls {
+Toggle the direction used to draw the label on feature marks.  Initially, the
+labels are drawn vertically.  This command may be used to toggle between
+vertical and horizontal labels.
+.le
+.ls }
+Initially the label type (name or wavelength) for features in
+\fIshifted_lines\fR
+is determined by \fIlabel_type\fR.  This keystroke can be used to toggle
+between the two types.
+.le
+.ls +
+Make all features visible.
+.le
+.ls _
+Make the nearest feature invisible.  It may be retrieved using the '+' cursor
+command.
+.le
+.ih
+SEE ALSO
+splot
+.endhelp

@@ -1,0 +1,5 @@
+# Root help directory for the MTOOLS packages.  This dummy package is necessary
+# in order to have `mtools' appear as a module in some package, so that the
+# user can type "help mtools" (with the `mtools' given as a task).
+
+_mtools		pkg = mtools$lib/rootmtools.hd

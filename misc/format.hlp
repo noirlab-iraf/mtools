@@ -1,0 +1,33 @@
+.help format Aug92 mtools
+.ih
+NAME
+format -- Format the standard input onto the standard output
+.ih
+USAGE
+format fstring < input
+.ih
+PARAMETERS
+.ls fstring
+The format string.  This can be (almost) any valid SPP format string.
+.le
+.ih
+DESCRIPTION
+FORMAT will take one line from the standard input, format it according to the
+specified format string, and pass it on to the standard output.  It is most
+useful for scripts where pretty output is desired.
+.ih
+EXAMPLES
+Assume we have a script which has calculates the airmass for some object at a
+given time.  To produce output something like:
+
+.nf
+	"The airmass is 1.34 at 11:33:45."
+.fi
+
+the following line could be used in the script:
+
+.nf
+	print (airmass, time) | format ("The airmass is %.2f at %.0h.\n")
+.fi
+
+.endhelp

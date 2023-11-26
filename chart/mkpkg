@@ -1,0 +1,92 @@
+# Make CHART
+# Must do mkpkg -p stsdas to get the stsdas library
+
+$call	relink
+$exit
+
+update:
+	$call	relink
+	$call	install
+	;
+
+relink:
+#	$set	LIBS = "-lxtools -lllsq -ltbtables"
+	$set	LIBS = "-lxtools -lllsq"
+	$update libpkg.a
+	$omake	chart.x "chart.h" <iraf.h> <fset.h> <pkg/gtools.h>
+	$link	chart.o libpkg.a $(LIBS) -o xx_chart.e
+	;
+
+debug:
+	$set	XFLAGS = "-gfcqx"
+	$set	LFLAGS = "-gqx"
+#	$set	LIBS = "-lxtools -lllsq -ltbtables"
+	$set	LIBS = "-lxtools -lllsq"
+	$update libpkg.a
+	$omake	chart.x "chart.h" <iraf.h> <fset.h> <pkg/gtools.h>
+	$link	chart.o libpkg.a $(LIBS) -o xx_chart.e
+	;
+
+install:
+#	$move	xx_chart.e	mtoolsbin$x_chart.e
+	$move	xx_chart.e	../bin$(arch)/x_chart.e
+	;
+
+generic:
+	$set	GEN = "$$generic -k"
+	$ifolder (evaluate.x, evaluate.gx)
+	$(GEN) evaluate.gx -o evaluate.x
+	$endif
+	$ifolder (dbio.x, dbio.gx)
+	$(GEN) dbio.gx -o dbio.x
+	$endif
+	;
+
+libpkg.a:
+	$call generic
+	@(libq)
+
+	# General routines
+	cursor.x	chart.h <gset.h> <pkg/gtools.h>
+	colon.x		chart.h cutoff.h markers.h <gset.h> <ctype.h>
+	select.x	chart.h cutoff.h markers.h <pkg/gtools.h> <mach.h> \
+			<gio.h> <ctype.h>
+	chfuncs.x	chart.h cutoff.h markers.h <pkg/gtools.h> <error.h> \
+			<ctype.h> <chars.h>
+	spitlist.x	chart.h <ctype.h> <chars.h> <gset.h> <pkg/gtools.h> \
+			<error.h>
+
+	# Database routines
+	dbio.x		database.h
+	format.x	database.h <ctype.h>
+	readdb.x	database.h <ctype.h>
+	dbmisc.x	database.h
+	replace.x	database.h pointer.h <gset.h> <ctype.h> <error.h> \
+			<mach.h>
+#	tables.x	database.h pointer.h <tbset.h>
+
+	# Expression evaluation routines
+	gettoken.x	database.h token.h <ctype.h> <lexnum.h>
+	parse.x		token.h postfix.h markers.h <error.h> <ctype.h>
+	printit.x	token.h postfix.h
+
+	# Graph routines
+	histogram.x	chart.h <mach.h> <error.h> <gset.h> <pkg/gtools.h>
+	graph.x		chart.h markers.h <gset.h> <pkg/gtools.h> <error.h>
+	nearest.x	<mach.h> <pkg/gtools.h>
+	mark.x		<mach.h> <pkg/gtools.h> <gset.h>
+	unmark.x	<mach.h> <pkg/gtools.h> <gset.h>
+	readmarks.x	<ctype.h> <gset.h>
+
+	# Tools
+	pager.x		<chars.h> <fset.h>
+	misc.x		<ctype.h>
+	palomar.x	chart.h <math.h> <error.h> <gset.h>
+	;
+
+libq:
+	# These routines can't be compiled optimized because it runs out
+	# out memory
+	$set	XFLAGS = "-c -q -/Ns1000"
+	evaluate.x	database.h token.h  postfix.h pointer.h	
+	;

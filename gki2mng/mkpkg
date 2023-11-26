@@ -1,0 +1,21 @@
+# Make GKI2MNG
+
+$call	relink
+$exit
+
+update:
+	$call	relink
+	$call	install
+	;
+
+relink:
+	$set	LIBS = "-lstg"
+	$omake	gki2mng.x	<error.h> <gki.h>
+	$omake	gkgfuncs.x	<config.h> <mach.h> <gset.h> <gki.h> <gio.h>
+	$link	gki2mng.o gkgfuncs.o $(LIBS) -o xx_gki2mng.e
+	;
+
+install:
+#	$move	xx_gki2mng.e	mtoolsbin$x_gki2mng.e
+	$move	xx_gki2mng.e	../bin$(arch)/x_gki2mng.e
+	;

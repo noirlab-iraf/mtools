@@ -1,0 +1,20 @@
+.help fitize Feb96 mtools
+.ih
+NAME
+fitize -- Convert all images in current directory and its subdirectories
+to FITS files.
+.ih
+USAGE
+fitize
+.ih
+DESCRIPTION
+Writes all images in the currect directory and its subdirectories 
+to FITS files, and then deletes
+all the images.  The suffix ".fit" will be appended to each image name for
+naming the created FITS files (i.e. "image.imh" --> "image.fit").
+Each conversion will be noted to STDOUT.  The \fBdataio\fR package must be
+loaded before running this task.
+.ih
+SEE ALSO
+defitize
+.endhelp

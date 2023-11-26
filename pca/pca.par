@@ -1,0 +1,2 @@
+method,s,h,correlation,"|correlation|covariance|sums|",,Method to use
+verbose,b,h,no,,,Print projections?

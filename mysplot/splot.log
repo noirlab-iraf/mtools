@@ -1,0 +1,32 @@
+
+Mar  5 10:32 [tmp.fit]: 53W015 2.5" reg slit - Aperture 1
+    center      cont      flux       eqw      core     gfwhm     lfwhm
+  5938.175 5.095E-17 6.132E-15    -120.1
+
+Mar  5 10:48 [tmp.fit]: 53W015 2.5" reg slit - Aperture 1
+    center      cont      flux       eqw      core     gfwhm     lfwhm
+  5932.031 5.326E-17 5.316E-15    -99.65
+    center      cont      flux       eqw      core     gfwhm     lfwhm
+rest_wavelength: 1909  z:  2.10740  v: 631783.44
+
+Mar  5 10:51 [tmp.fit]: 53W015 2.5" reg slit - Aperture 1
+    center      cont      flux       eqw      core     gfwhm     lfwhm
+  5934.213 5.159E-17 6.384E-15    -123.7
+    center      cont      flux       eqw      core     gfwhm     lfwhm
+rest_wavelength: 1909  z:  2.10855  v: 632126.12
+
+Mar  5 10:55 [tmp.fit]: 53W015 2.5" reg slit - Aperture 1
+    center      cont      flux       eqw      core     gfwhm     lfwhm
+  5925.355 5.364E-17 5.414E-15    -101.1
+
+Mar  5 10:56 [tmp.fit]: 53W015 2.5" reg slit - Aperture 1
+  5928.372 5.338E-17 5.257E-15    -98.52
+    center      cont      flux       eqw      core     gfwhm     lfwhm
+rest_wavelength: 1909  z:  2.10549  v: 631208.81
+
+Mar  5 11:10 [tmp.fit]: 53W015 2.5" reg slit - Aperture 1
+rest_wavelength: 6731  z: -0.11928  v: -35760.06
+
+Mar  5 11:28 [tmp.fit]: 53W015 2.5" reg slit - Aperture 1
+    center      cont      flux       eqw      core     gfwhm     lfwhm
+  5925.802 4.928E-17 7.114E-15     -145.

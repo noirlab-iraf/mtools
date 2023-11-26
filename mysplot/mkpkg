@@ -1,0 +1,74 @@
+# Make MYSPLOT
+
+$call	relink
+$exit
+
+update:
+	$call relink
+	$call install
+	;
+
+debug:
+	$set    XFLAGS = "-g -c -f"
+	$set    LFLAGS = "-g -f"
+	$call relink
+	;
+
+relink:
+	$set	LIBS = "-lsmw -lxtools -lllsq -liminterp -lcurfit"
+	$call	prep
+	$update libpkg.a
+	$omake	splot.x "mark.h" <smw.h> <units.h> <mach.h> <error.h> \
+		<imhdr.h> <gset.h> <pkg/gtools.h>
+        $link	splot.o libpkg.a $(LIBS) -o xx_mysplot.e
+	;
+
+install:
+	$move	xx_mysplot.e	../bin$(arch)/x_mysplot.e
+	;
+
+prep:
+	$ifnfile (glabax.h)
+	$copy sys$gio/glabax/glabax.h glabax.h
+	$endif
+	$ifnfile (libpkg.a)
+	    $iffile (noao$onedspec/libpkg.a)
+		$copy noao$onedspec/libpkg.a libpkg.a
+		!touch -t 198001010100 libpkg.a 
+		!touch *.x
+	    $else
+		$iffile (noao$bin$(arch)/OBJS.arc.Z)
+		    !zcat $iraf/noao/bin$arch/OBJS.arc.Z | rtar -xvp \
+		     onedspec/ onedspec/libpkg.a
+		    !touch -t 198001010100 libpkg.a
+		$else
+		    $echo "Can't find ONEDSPEC libpkg.a anywhere"
+		    $exit
+		$endif
+	    $endif
+	$endif
+	;
+
+clean:
+	$delete glabax.h libpkg.a mysplot.o
+	;
+
+libpkg.a:
+	# The following have been added to support feature marking.
+	linelist.x	<ctype.h>
+	mark.x		mark.h <smw.h>
+	nearest.x	mark.h
+
+	# The following have been changed to return the line center from the
+	# subroutine for redshift determination.
+	eqwidth.x
+	eqwidthcp.x	<gset.h>
+	gfit.x		<error.h> <mach.h> <gset.h>
+
+	# The following have small changes to get no rounding with log
+	# scaling.
+	replot.x	<gset.h>
+	gtswind.x	<gset.h> <mach.h> <pkg/gtools.h>
+	gtlabax.x	<gset.h> <pkg/gtools.h>
+	glabax.x	glabax.h <mach.h> <gset.h> <gio.h>
+	;

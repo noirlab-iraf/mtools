@@ -1,0 +1,8 @@
+# Root task entry for the MTOOLS package help tree.  Defines `mtools' as both a
+# task and a package in the mtools help database.
+
+mtools		men = mtools$mtools.men,
+		hlp = mtools$mtools.men,
+		sys = mtools$mtools.hlp,
+		pkg = mtools$mtools.hd,
+		src = mtools$mtools.cl

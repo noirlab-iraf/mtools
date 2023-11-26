@@ -1,0 +1,8 @@
+       airchart - Plot airmass curves
+	  chart - Interactively chart 2-dimensional data
+       defitize - Convert all FITS files in currect directory to images
+         fitize - Convert all images in current directory to FITS files
+	 format - Format the standard input and pass it to the standard output
+	gki2mng - Convert a GKI metacode file to MONGO input
+	mysplot - Version of SPLOT with line identifying features
+            pca - Principal components analysis

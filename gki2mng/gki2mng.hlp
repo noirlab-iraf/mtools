@@ -1,0 +1,26 @@
+.help gki2mng Aug92 mtools
+.ih
+NAME
+gki2mng -- Convert a GKI metacode file to MONGO input
+.ih
+USAGE
+gki2mng input
+.ih
+PARAMETERS
+.ls input
+The input GKI metacode file.
+.le
+.ih
+DESCRIPTION
+This task converts a GKI metacode file to MONGO input on the standard output.
+There is no guarantee that this will work on every GKI metacode, but thus
+far it has worked well.  It will not convert the axis labels to MONGO input,
+as this is probably better handled by the MONGO axis generating commands.
+.ih
+EXAMPLES
+Convert the metacode file "plot.gki" to a MONGO file "plot.mongo".
+
+.nf
+	cl> gki2mng plot.gki > plot.mongo
+.fi
+.endhelp

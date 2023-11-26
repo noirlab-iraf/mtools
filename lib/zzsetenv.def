@@ -1,0 +1,9 @@
+# Global enviroment definitions fro the MTOOLS package.
+
+set	mtoolsbin	= "mtools$bin(arch)/"
+
+# Necessary variable definitions so that run-time help files can be found
+set	chart		= "mtools$chart/"
+set	mysplot		= "mtools$mysplot/"
+
+keep

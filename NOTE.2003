@@ -1,0 +1,14 @@
+June 9, 2003
+
+MTOOLS wouldn't completely recompile under PC-IRAF V2.12, under RedHat 7.3.
+I had to make the following changes:
+
+1) While it found the public defines in <pkg/gtools.h>, it wouldn't find
+   the private defines.  I don't understand this.  However, the kludge is
+   to copy iraf$pkg/xtools/gtools/gtools.h to mtools$chart and mtools$mysplot,
+   then replace 'include <pkg/gtools.h>' with 'include "gtools.h"' in all
+   *.x file in the chart and mysplot directories.
+
+2) When compiling mysplot, it thought that many of the *.x files were older
+   than there compiled versions in the library, and therefore didn't recompile
+   them.  The fix was to "touch" all "*.x" file in the mysplot directory.

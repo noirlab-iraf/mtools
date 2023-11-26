@@ -1,0 +1,7 @@
+# CHART graph key definitions for cat.
+# xfunction  yfunction  xmin  xmax  ymin  ymax
+X  Y  limits INDEF  INDEF  INDEF  INDEF
+J-F  U-J  xsize U/10 ysize F/10
+F-N  J-F  square
+J  U-J  ysize ~U
+RA  DEC  xunits hours yunits degrees XFLIP

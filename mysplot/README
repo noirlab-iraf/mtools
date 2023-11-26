@@ -1,0 +1,28 @@
+This directory contains the source for MYSPLOT, an extened version of IRAF's
+ONEDSPEC.SPLOT task.  It is part of a larger package of tasks, however it can
+be compiled and executed outside that package.  To do so, do the following:
+
+1.  Compile the program
+    
+    cl> mkpkg
+
+    Note the "prep:" section in the "mkpkg" file.  Since this task is just an
+    extension of the IRAF ONEDSPEC.SPLOT task, it requires the ONEDSPEC
+    "libpkg.a" file.  The "prep:" section is responsible for copying that
+    library into this directory.  This operation can be site dependent,
+    depending on how IRAF is installed at your site.  This part of the "mkpkg"
+    file may need to be changed to suit your site.
+
+2.  In your "loginuser" file, add the following two lines:
+
+    set mysplot = "mysplot_directory/"
+    task mysplot = mysplot$xx_mysplot.e
+
+    where "mysplot_directory/" should be replaced with the appropriate path
+    name.  It is necessary to define the IRAF enviroment variable "mysplot" so
+    that the interactive help file ('?' keystroke) can be found.
+
+3.  To get an on-line help manual for the task:
+
+    cl> help mysplot$mysplot.hlp
+

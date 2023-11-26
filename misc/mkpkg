@@ -1,0 +1,22 @@
+# Make miscellaneous mtools programs
+
+$call	relink
+$exit
+
+update:
+	$call	relink
+	$call	install
+	;
+
+relink:
+	$call   format
+	;
+
+format:
+	$omake format.x
+	$link format.o -o xx_format.e
+	;
+
+install:
+	$move xx_format.e ../bin$(arch)/$x_format.e
+	;

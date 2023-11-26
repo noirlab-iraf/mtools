@@ -1,0 +1,966 @@
+.help chart Jan88 mtools
+.ih
+NAME
+chart -- Interactive database management facility
+.ih
+USAGE	
+chart database
+.ih
+PARAMETERS
+.ls database
+Input database.
+.le
+.ls cutoff1="", cutoff2="", cutoff3="", cutoff4=""
+Sample cutoffs.
+.le
+.ls logic = "and"
+The logic used to combine the different sample cutoffs: "and" requires an
+entry to meet all sample cutoffs to be included; "or" requires that it
+meet at least one.
+.le
+.ls marker1="", marker2="", marker3="", marker4="", marker5="", marker6="", marker7="", marker8=""
+Special marker definitions.
+.le
+.ls color1="", color2="", color3="", color4="", color5="", color6="", color7="", color8=""
+Marker color definitions.  Valid colors are "black", "white", "red", "green",
+"blue", "cyan", "yellow", "magenta", "purple", and "darkslategrey".  The
+default marker color is the foreground color for your "xgterm" (which
+defaults to "white").
+.le
+.ls def_marker = "point"
+The default marker for any entries not included in the special marker
+definitions.  Valid markers are "point", "box", "plus", "cross", "diamond",
+"hline", "vline", "hebar", "vebar", "circle", and "ebars".  If set to "ebars",
+then all objects will use error bars for their markers, sized according
+to the normal sizing conventions, and in addition will overplot the markers
+specified in \fImarkerX\fR at the same default size for all objects.  The
+effect is then to plot the requested marker in a small defualt size with
+error bars overplotted on it.
+.le
+.ls mmarker = "cross"
+The marker used for marking points.  The valid markers are the same as for
+\fIdef_marker\fR.
+.le
+.ls xsize = ""
+Function used to determine the x-axis sizes of the markers for those
+graph keys which don't have a x-sizing function defined for that key.
+.le
+.ls ysize = ""
+Function used to determine the y-axis sizes of the markers for those
+graph keys which don't have a y-sizing function defined for that key.
+.le
+.ls sorter = ""
+Function used to sort the output when printing a list using the formatted
+output commands (\fI:[g]all\fR, \fI:[g]marked\fR, and \fI:[g]unmarked\fR).
+If blank, then the entries are listed in the
+order in which they appear in the database.
+.le
+.ls field = "none"
+Limit sample to a specified field on the sky?  The valid responses are "none",
+"celestial", and "xy".  If \fIfield\fR = "none", then no field limitation
+is applied.  If \fIfield\fR = "celestial", then the sample is limited to a
+field
+specified in celestial coordinates.  The database must contain the fields
+"RA" and "DEC", with "RA" in hours of right ascension and "DEC" in degrees
+of declination.
+If \fIfield\fR = "xy", then the sample is limited to a field specified
+in x-y coordinates (i.e. x-y positions on a photographic plate).  The database
+must contain the fields "X" and "Y", in arbitrary units, although one unit
+in x should equal one unit in y.
+The field center and radius are specified by the parameters \fIxcenter\fR,
+\fIycenter\fR, and \fIradius\fR.
+.le
+.ls xcenter = INDEF
+The x-axis center of the sample field.  If \fIfield\fR = "celestial", then it
+should be in hours of right ascension (i.e. 13:30:00 or 13.5).
+If \fIfield\fR = "xy", then
+it should be in the same units as the fields "X" and "Y".
+.le
+.ls ycenter = INDEF
+The y-axis center of the sample field.  If \fIfield\fR = "celestial", then it
+should be in degrees of declination (i.e. 45:07:30 or 45.125).
+If \fIfield\fR = "xy", then it should be in the same units as the
+fields "X" and "Y".
+.le
+.ls radius = INDEF
+The radius of the sample field.  If \fIfield\fR = "celestial", then it should
+be in degrees of declination (i.e. 00:05:00 or 0.08333).
+If \fIfield\fR = "xy", then
+it should be in the same units as the fields "X" and "Y".
+If positive, a square sample is selected, with \fIradius\fR equal to half the
+length of a side of the square.  If negative, a circular
+sample is selected, with \fIradius\fR equal to the radius of the circle.
+.le
+.ls min_size=0.04, maxsize=0.01
+The minimum and maximum marker size in NDC units (0 to 1 spans the screen).
+These are used when marker sizing functions are preceded with a '~' sign,
+indicating that each marker should be sized proportional to its value of the
+sizing function.  The markers are made to span a range of sizes from
+\fImin_size\fR to \fImax_size\fR.
+\fIMax_size\fR may be less than \fImin_size\fR, causing those objects
+with the largest value of the sizing function to have the smallest
+markers, and vice versa.
+.le
+.ls dbformat = ""
+File defining the format of the database file.  A file must be specified.
+.le
+.ls outformat = ""
+Default format description file used when outputing data.
+.le
+.ls keys = ""
+Graph keys description file.  A file must be specified.
+.le
+.ls outliers = yes
+If yes, objects outside the graph limits (including objects with indefinite
+x-axis and/or y-axis values) are marked on the nearest border of the graph,
+with an arrow overplotted on it pointing away from the graph.
+If set to no, then outliers are not marked.
+.le
+.ls count = ""
+After exiting CHART, this parameter will contain the size of the last
+examined sample.
+.le
+.ls device = "stdgraph"
+Name of the interactive plotting device.
+.le
+.ls cursor = ""
+Graphics cursor input.
+.le
+
+The remaining parameters apply to histograms.
+.ls nbins = 20
+The number of bins in the histogram.
+.le
+.ls z1 = INDEF, z2 = INDEF
+The minimum and maximum values in the histogram. \fIz1\fR and \fIz2\fR
+default to the function minimum and maximum.
+.le
+.ls autoscale = yes
+In the case of integer data, automatically adjust \fInbins\fR and \fIz2\fR to
+avoid aliasing effects.
+.le
+.ls top_closed = yes
+Include \fIz2\fR in the top bin?  Each bin or the histogram is a subinterval
+that is half open at the top.  \fITop_closed\fR decides whether those values
+equal to \fIz2\fR are to be counted in the histogram.  If \fItop_closed\fR is
+yes, the top bin will be closed.
+.le
+.ls plot_type = "box"
+The plot vector type.  The options are "line" and "box".
+.le
+.ls log = no
+Plot the logarith of the histogram, rather than the histogram.
+.le
+.ih
+DESCRIPTION
+CHART is a general interactive database management facility.  It includes
+facilities for defining subsamples of the database and printing them out
+in user-specified formats, and plotting graphs and histograms of functions of
+database fields.
+
+A database consists of a data file (\fIdatabase\fR), and a format file
+(\fIdbformat\fR).  The data file is simply a table of values,
+one line per object.  Each column in the database is referred to here as
+a field (i.e. RA, J, F, REDSHIFT).  Each line of values represents one object
+in the database, and will be referred to as an entry.  The database is read
+free-format, so fields (columns) need to be separated by white space.
+
+The format file (\fIdbformat\fR) has one line for each field in the database,
+in the order that the fields occur in the database.  Each line contains the
+name of the field (i.e. U, J, dec), the datatype (short, int, long, real,
+double, char, or bool), the default format string when printing that field,
+and, if the field is a string (datatype is "char"), the number of characters
+in the field.  The field name and format strings can be a maximum
+of ten characters, and the name strings are insensitive to case.
+The format string must be a legal SPP format string.  A legal
+format string has the structure "%w.dC", where w is the width of the field,
+d is the number of decimal places or the number of digits of precision, and
+C is the format code (e-exponential, f-fixed, g-general, h-hms, m-ms,
+d-decimal, o-octal, u-unsigned, x-hexadeciaml, s-string,
+b-boolean: see page 5 of the document "Programmer's Crib Sheet" in IRAF
+System Handbook Volume 3B).  Additionally, each field may have an error field
+associated with it.  In the database file, the error field would be the next
+field.  If this entry has an error field, then the word "error" should be
+appended to the line, along with a default format string for the error.
+One field is designated the KEY field in the
+database.  Each entry should have a unique value for the KEY field.  This
+field is used to uniquely identify each entry when searching or marking an
+entry by name.  If a line defining a field in \fIdbformat\fR has the word
+"KEY" or "key" appended to the end, then that field is the KEY field.  If no
+field is so designated, then the first field in the database is assumed to
+be the KEY field.  The rest of the line will not be read, so comments
+describing the field may be appended to the line if desired.
+
+As an example, lets asssume that our database consists of U, J, F, and N
+magnitudes for a catalog of galaxies, along with a serial number, redshift,
+right ascension, declination, and Hubble type.  The U, J, F, and N magnitudes
+all have an error associated with them.  Then the \fIdbformat\fR file
+could be:
+.in 8
+.nf
+# CHART database format file for galaxy catalog
+U		real	%5.2f	error	%4.2f
+J		real	%5.2f	error	%4.2f
+F		real	%5.2f	error	%4.2f
+N		real	%5.2f	error	%4.2f
+serial		int	%5d	key
+Z		real	%7.4f		# redshift
+RA		double	%12.3h		# epoch 1950 r.a.
+DEC		double	%12.2h		# epoch 1950 decl.
+hubtype		char	%8s	8	# Hubble type
+.fi
+.in -8
+The KEY field is "serial".  A few of the entries have comments, which are not
+read by the program.
+
+The basic unit that the program operates on are functions of fields.
+A function is just an arithmetic expression composed of fields,
+numeric and string constants, and operators.
+The usual set of arithmetic and boolean
+operators is included (+,-,*,/,**,<,>,<=,>=,==,!=,!,&&,||, unary minus, and
+left and right
+parenthesis), as well as the intrinsic functions "log", "ln", "exp", "dexp",
+"sqrt", "abs", "nint", "min", "max", "indef", and "err".  The "err" function
+calculates the error for the enclosed expression (i.e. "err J" or "err(U-J)"),
+and requires that each field that appears in the expression have an associated
+error field.  It uses those errors to do a simple propagation of errors
+calculation.
+Range specifications are also
+legal (i.e. -1.0 < U-J < -0.5).  The conditional expression "?:" is available
+(i.e. U-J < -0.4 ? "blue" : "red"), in which the "?" and ":" operators have
+the lowest possible precedence.
+Additionally, "?=" and "!?" test whether the left operand is or is
+not a substring of the right operand (i.e. if hubtype is a field for
+Hubble type, then '"SB" ?= hubtype && "c" !? hubtype' could specify all barred
+spiral galaxies except SBc).  Functions are left associative, although unary
+operators are right associative, and use the usual operator
+precedences (intrinsic functions have the same precedence as unary operators).
+String constants must be enclosed in double quotation marks.
+The simplest function is the name of a database field.
+Whitespace is only nessary to separate intrinsic functions from database
+fields and arithmetic constants (i.e. log U, although log(U) would also work);
+it is otherwise ignored.  When appearing in labels
+and graph headers functions appear exactly as entered, so functions should be
+typed as you wish them to appear, using whatever whitespace you desire.
+
+Functions may be enclosed in single or double quotes.  When an input line is
+expecting one function, the whole line is assumed to be the function (i.e. when
+specifying a \fIcutoffX\fR parameter).  In this case there is no need to
+delimit the function with quotes.  When entering more than one function on
+an input line (i.e. in the graph key description file), it is necessary to
+delimit functions.  This can be accomplished by enclosing them in single or
+double quotes.  If not quoted, then the functions are assumed to be whitespace
+separated.  If a quoted function contains a string constant, then either
+enclose the function with single quotes or escape the double quotes that demark
+the string constant (i.e. 'class == "M V"' or "class == \"M V\"").
+Remember that it is only necessary to
+delimit functions with quotes if more than one function appears on an input
+line and the function contains whitespace.
+
+An undefined or indefinite value for a numeric field for a given entry is
+represented by the string INDEF, in keeping with IRAF convention.  Any
+arithmetic operations on an indefinite value yields an indefinite result.
+Any boolean operations on an indefinite value yield a negative result.
+The boolean function "indef" may be used to test whether a field is defined.
+It returns true if the field is INDEF, and false if the field is defined
+(i.e. Assume that you want a selection of faint galaxies, which would include
+all galaxies fainter than a specified J magnitude, as well as those which
+were undetected in J and therefore have a J value of INDEF.  The sample cutoff
+to obtain this would be 'J > 22 || indef(J)').
+
+The database sample to examine is defined by the \fIcutoff\fR parameters.
+Each parameter must be a boolean function.  Blank parameters are ignored.
+The \fIlogic\fR parameter specifies the logic used to combine the \fIcutoff\fR
+parameters.  If \fIlogic\fR == "and", then a database entry must satisfy all
+of the \fIcutoff\fR criteria
+to be included in the sample.  If \fIlogic\fR == "or", then an entry need
+satisfy just one of the \fIcutoff\fR criteria to be included in the sample.
+For example, assume one wants a sample of bright UV-excess objects, defined
+as V < 19 and U-V < -0.3.  One set of parameters to define such a sample is:
+.in 8
+.nf
+cutoff1 = V  < 19
+cutoff2 = U-V<-0.3
+cutoff3 = 
+cutoff4 = 
+logic   = and
+.fi
+.in -8
+If one wanted to add to this sample all stars brighter than 15 in V, then:
+.in 8
+.nf
+cutoff1 = V < 19 && U-V < -0.3
+cutoff2 = class == "star" && V < 15
+cutoff3 = 
+cutoff4 = 
+logic   = or
+.fi
+.in -8
+Note that to change a parameter to a blank line, enter two quotes ("").
+The sample may be limited further by specifying a field center and radius,
+using the parameters \fIfield\fR, \fIxcenter\fR, \fIycenter\fR, and
+\fIradius\fR.
+
+The program starts up in graph mode, plotting a graph of whatever functions are
+assigned to the 'h' graph key.  Graph keys are defined in the graph key
+description file referred to by the parameter \fIkeys\fR.  A graph key
+description file contains a line for each graph key to be defined, the
+first line describing the 'h' key, the second line describing the 'i' key, and
+so on in order.  A maximum of five keys can be defined ('h', 'i', 'j', 'k',
+and 'l').  If there are fewer than five key description lines, then the
+remaining keys are left undefined and disenabled.
+Each line must specify the x-axis function and y-axis function to plot when
+its graph key is called.  In addition, any of the
+following optional flags can be specified after the x- and y-axis functions:
+.ls xsize
+This flag is followed by a string specifying the function used to determine
+the x-axis size of the markers for this graph key only.  The various
+sizing options are described below.
+.le
+.ls ysize
+This flag is followed by a string specifying the function used to determine
+the y-axis size of the markers for this graph key only.
+.le
+.ls xunits
+This flag is followed by a string specifying the units of the x-axis
+function.  This will appear in the x-axis label (i.e. "xfunction (xunits)").
+If missing, then the label appears as simple "xfunction".
+.le
+.ls yunits
+This flag is followed by a string specifying the units of the y-axis
+function.
+.le
+.ls limits
+This flag is followed by four numbers specifying the minimum and maximum plot
+limits for the x-axis, and the minimum and maximum plot limits for the y-axis.
+An axis minimum limit may be greater than its maximum limit, resulting in that
+axis being flipped.  INDEF may be specified for one or more limits, causing
+that limit to be set according to the limit of the data.  If this keyword is
+missing, then all limits are set to INDEF.
+.le
+.ls xflip
+Flip the x-axis, so that the axis runs from smaller values on the right to
+larger values on the left.  If both the minimum and maximum limits of the
+x-axis are defined, then this is ignored when plotting.
+.le
+.ls yflip
+Flip the y-axis, so that the axis runs from smaller values on the top to
+larger values on the bottom.  If both the minimum and maximum limits of the
+y-axis are defined, then this is ignored when plotting.
+.le
+.ls square
+Force a square aspect ratio, meaning that an equal increment on the x- and
+y-axes gives an equal physical length in the x- and y-axiss on the
+plotting device.
+.le
+
+Additional blank and comment lines are ignored.  For example,
+the following file would assign right-ascension and declination to the 'h'
+key, with the right ascension axis flipped so as to put east on the left side
+of the plot.  The 'i' key would plot x and y position, with the "square"
+flag selected to give the proper aspect ratio (assuming x and y are in the
+same units).  The 'j' key plots J versus J-F, with the marker sizes equal to
+the errors in each axis.  The 'k' key plots J-F versus U-J, with the specified
+limits.  The 'l' key is the simplest legal key description, specifying the
+x- and y-axis functions with no flags.
+.in 8
+.nf
+# Graph key description file for plotting celestial
+# coordinates and various color-magnitude and
+# color-color relations.
+RA	DEC	xunits	hours	yunits	degrees	xflip
+x	y	square	xunits	microns	yunits	microns
+J	J-F 	xsize	error	ysize	error
+"J - F"	"U - J" limits -1. 3 -1. INDEF
+J-F	F-N	
+.fi
+.in -8
+The current graph key definitions
+may be saved to a graph key description file using the \fB:wkeys\fR command.
+Graph keys may be reassigned by reading a new graph key description file
+using the \fB:rkeys\fR command.  Individual graph keys may be reassigned
+using the 'g' cursor command.
+
+The marker used to plot each sample object is defined by the \fImarkerX\fR
+parameters, and the \fIdef_marker\fR parameter.  Each \fImarkerX\fR
+parameter may specify a marker followed by a boolean function defining a
+subsample of objects to use that marker.  For example, to plot all stars
+as circles, and all galaxies with B < 20 or V < 21 as boxes, one could enter:
+.in 8
+.nf
+marker1 = circle class == "star"
+marker2 = box class == "galaxy" && (B < 20 || V < 21)
+marker3 = 
+marker4 = 
+.fi
+.in -8
+If an object fulfills more than one marker cutoff, then it uses the marker
+of the last \fImarkerX\fR whose cutoff it meets (i.e. if it falls in the
+subsamples defined by \fImarker1\fR and \fImarker3\fR, then it uses the
+marker specified in \fImarker3\fR).  Any objects not falling in any of the
+subsamples defined by the \fImarkerX\fR parameters uses the marker specified
+by \fIdef_marker\fR.  
+Valid markers are "point", "box", "plus", "cross", "diamond", "hline",
+"vline", "hebar", "vebar", "circle", and "ebars".  All but the last are the
+usual IRAF markers.  "ebars" plots both a horizontal error bar, sized by
+the x-axis sizing function, and a vertical error bar, sized by the y-axis
+sizing function.  Neither
+\fIdef_marker\fR or any of the special markers can be the same as the marker
+reserved for marking points (\fImmarker\fR).  If \fIdefmarker\fR is set to
+"ebars", then each object will be plotted with any mark specified in the
+\fImarkerX\fR parameters, at the same default size for each object, which will
+then be overplotted with error bars sized as specified below.
+
+Similarly, the marker colors for each object are defined by the \fIcolorX\fR
+parameters.  They work the same way as the \fImarkerX\fR parameters, except
+there is not parameter to specify the default marker color.  The default color
+is set to the foreground color for your "xgterm", which by default is "white"
+(it may be changed in you ".Xdefaults" file).  Valid colors are
+"black", "white", "red", "green", "blue", "cyan", "yellow", "magenta",
+"purple", and "darkslategrey".  You must use the
+default colors for "xgterm" (set using the XGterm X resoures color0, color2,
+..., color9 in your ".Xdefaults" file); i.e., don't change the values of those
+X resources by setting them in your ".Xdefaults" file.
+
+Marker sizes for a given graph key are determined by the functions specified
+by the "xsize" and "ysize" flags in its graph key description.  If neither of
+those flags were specified, then the functions specified by the \fIxsize\fR and
+\fIysize\fR parameters are used.  Thus the \fIxsize\fR and \fIysize\fR
+functions are used as defaults if the markers aren't explicitly sized for a
+given
+graph key in the graph key description.  These functions are referred to here
+as sizing functions.  There are three different methods used to determine
+marker
+sizes.  If the sizing function is specified as "error" or "err", then the
+marker size (radius) will be equal to the error in the value of the function
+being plotted for that axis.  This allows the plotting of error bars.
+The remaining two methods are selected by whether or not the first character in
+the sizing function is the character '~'.
+The '~' character is meant to signify "proportional to".
+If the first chacter in the sizing function is '~', then the marker sizes
+(diameters) are
+forced to span the range \fImin_size\fR to \fImax_size\fR (where the minimum
+and maximum marker sizes are specfied in NDC units), each entry's marker size
+in that axis being proportional to its value of the sizing function.  Thus
+entries with the smallest value of the sizing function would have marker sizes
+near \fImin_size\fR, and entries with the largest vale of the sizing function
+would have marker sizes near \fImax_size\fR.  \fIMin_size\fR may be larger than
+\fImax_size\fR, in which case entries with large sizing function values will
+have small markers, and vice versa.  An example of this method is scaling
+marker sizes to be proptional to their V magnitudes.
+If the first character is not a '~', then the size (radius)
+of each marker in that axis is equal to the value of the sizing function for
+that entry in WCS units.  In this case, the size specified by the sizing
+function is interpreted as the marker radius, which facilitates the most
+common use of this option to plot error bars,
+where the sizing function in each axis is equal to the error in that axis.
+
+The x-axis size of each marker is determined by the x-axis sizing
+function (specified by the "xsize" flag in the graph key description or
+the \fIxsize\fR parameter if neither the "xsize" or "ysize" flags are specified
+in the graph key description), and the y-axis size of each marker is
+determined by the y-axis sizing function (specified the the "ysize" flag or the
+\fIysize\fR parameter).  If either sizing function is blank, then each marker
+has the same default size in that axis.  If one of the sizing functions is
+just the string "same" or "SAME", then the marker size in both dimensions is
+determined by the other axis's sizing function, giving symmetrical markers.
+The sizing functions used for the current plot are printed in the plot
+header.
+
+As an example, lets assume we want the 'h' graph key to plot B magnitude on
+the x-axis versus redshift on the y-axis.  We want the x-axis size (radius) of
+each marker to be equal to the error in the B magnitude.
+But rather than having the
+y-axis size equal to the error in redshift, we want it to be proportional
+to the quality of the redshift, where the quality is an integer running from 0
+for very uncertain to 5 for absolutely certain, with larger markers for higher
+quality.  Further, we want the 'i' key to plot U-B versus B-V, and the 'j' key
+to plot B-V versus V-I.  For both the 'i' and 'j' keys, we want the marker
+sizes proportional to the B magnitudes, with bigger markers for brighter B
+magnitudes (and hence smaller B values).  To accomplish all this, we could set
+\fIxsize\fR="~B", \fIysize\fR="same", \fImin_size\fR=0.04, and
+\fImax_size\fR=0.01, with a graph key description file like this:
+.in 8
+.nf
+# Graph key description file
+B redshift xsize error ysize ~-quality
+B-V U-B
+V-I B-V
+.fi
+.in -8
+The plot header for the 'h' key would contain the line
+"xsize: error    ysize(~-): -quality".
+The "(~-)" indicates that the y-axis sizes are proportional to the
+function "-quality", with the "-" indicating that larger values of "-quality"
+(equal to smaller values of "quality") give smaller y-axis sizes.  The
+x-axis sizes (radii) are equal to the error in B.  The plot header for the 'i'
+key would contain the line "size(~-): B", indicating that the markers are sized
+in both dimensions proportional to the B magnitude, larger values of B giving
+smaller marker sizes.  If we had set \fImin_size\fR < \fImax_size\fR, then the
+header line would be "size(~+): B", the "+" indicating that larger values of
+B give larger markers.
+
+Marker sizes can be changed using the 'g' key to redefine a graph key, and by
+changing the parameters \fIxaxis\fR, \fIyaxis\fR, \fImin_size\fR, and
+\fImax_size\fR by using their associated colon commands.  Any of these actions
+will cause the markers to be resized immediately.  Any marker with an INDEF
+value for either axis sizing function will given a size of 0.005 in NDC units
+for that axis (a very small mark).
+
+If an object lies outside of the current plot limits, or if either its x-axis
+or y-axis value is INDEF, then it will be plotted on the edge of the plot
+nearest its actual location, with an arrow pointing away from the center of the
+marker to indicate that it actually lies beyond the current plot limits.
+Marking these objects can be suppressed by setting \fIoutliers\fR to no.
+
+While in graph mode, individual objects may be marked using the 'm' command.
+The marked object will be replaced by the marker specified in \fImmarker\fR.
+The marked objects will be marked in all graphs,
+so a subsample may be defined and then studied in a
+variety of graphs.  Marked objects may be unmarked using the 'u' command.
+Objects to be marked may also be read from a file using \fI:rmarks\fR.
+
+A new sample may be selected, or the marker display definitions changed,
+by using the appropriate colon commands to change the sample cutoffs,
+cutoff logic, field definitions, and marker definitions.  The sample or
+display characterisitics don't actually change until the 'd' command
+is executed.  The 'd' command uses the current values of all the parameters
+to redefine the sample and change all the graph characteristics.
+The values for all
+the parameters may be displayed using the \fI:show\fR command.  The sample
+and marker definitions for the current sample are always displayed in the
+the graph header.  Note that these may differ from the current parameter
+values if parameters have been changed since invoking 'd' or 'e'.
+
+A general formatted output facility is available with \fI:all\fR,
+\fI:marked\fR, and \fI:unmarked\fR.  The format of the output is specified
+in a format file, and the output sent to the specified output file.  If no
+format file is specified, then the database format is used.  A format file
+is read line by line.
+If the first two characters in a line are "##", then the line is a comment
+line and is skipped.
+If the first token on the line is a recognized
+command, then that line is interpreted as a command string;
+otherwise the
+line is simply printed out to the output file.  The following commands
+are recognized:
+.in 4
+.ls FORMAT format_string
+The next invocation of COUNT or LOOP will use this format string for printing.
+The format string should be enclosed in double quotes, and must be a valid
+SPP format string (see page 5 of the document "Programmer's Crib Sheet" in
+IRAF System Handbook Volume 3B).  A carriage return is appended to each
+format string, so it is not necessary to include one.
+.le
+.ls LOOP function1 [function2 ...]
+Loop through the subsample, printing out the function list for each entry,
+using the most recent format string.  The subsample is determined by which
+command was used: \fI:all\fR will print out all the objects in the current
+sample, \fI:marked\fR will print out only the marked objects, and
+\fI:unmarked\fR will print out only the unmarked objects.  The special
+function "SEQUENCE" may be specified to print out the sequence number for
+each object (its place in the list).  Since functions are separated by
+whitespace, then any function with whitespace in it must be enclosed in
+double quotes.  The functions "error" or "err" will print the error of the
+previous function in the list.
+.le
+.ls COUNT
+Print out the size of the subsample (all marked objects, all unmarked objects,
+or all objects) using the most recent format string.
+.le
+.ls HEADER
+Print a number of comment lines (first character in each line is a '#') which
+specify the database, sample definition, and sorting function, as well
+as a count of the number of objects in the specified subsample.
+.le
+.in -4
+
+For example, suppose you have a photometric database containing the fields
+NSER, U, J, and F.  You've marked three QSO candidates (using 'm') and
+you now want a file specifying the number of candidates you've marked and
+a list of the candidates and their U-J and J-F colors and errors.
+Using the command \fI:marked\fR, the following format file:
+.in 8
+.nf
+## CHART format file for printing the serial numbers
+## and colors of QSO candidates.
+##
+# QSO candidates
+FORMAT "# Number of candidates = %3d"
+COUNT
+ SEQ   NSER   U-J   err    J-F   err
+FORMAT "%3d  %6d  %5.2f  %4.2f  %5.2f  %4.2f"
+LOOP SEQUENCE NSER U-J error J-F error
+.fi
+.in -8
+would produce the following output file:
+.in 8
+.nf
+# QSO candidates
+# Number of candidates =   3
+ SEQ   NSER   U-J   err    J-F   err
+  1   12407  -0.50  0.04   1.01  0.03
+  2    1342  -0.46  0.11   0.53  0.09
+  3     876  -0.32  0.08  -0.02  0.06
+.fi
+.in -8
+The current value of the \fIsorter\fR parameter is used to determine the order
+in which entries are printed out in a LOOP command, the entries with the
+smaller values being printed first.  Thus, in the example, \fIsorter\fR may
+have been set to "U-J" so that the most UV-excess objects were printed first.
+If \fIsorter\fR is blank, then the entries are printed out in the order in
+which they appear in the database.  If the output file is STDOUT, then the
+data is printed on the screen.
+
+A simpler but less powerful method of getting output is with
+the \fI:gall\fR, \fI:gmarked\fR, and
+\fI:gunmarked\fR commands (the 'g' prefix supposedly stands for "generic").
+No format file is needed for these commands.  A format string and function
+list is specified on the command line.  The output file consists of
+a header of comment
+lines defining the sample and listing the function names to be listed,
+and a list of data as specified on the command line for each entry in the
+subsample.  The subsample is again determined by the command used; \fI:gall\fR
+lists data for all objects, \fI:gmarked\fR only for marked objects, and
+\fI:gunmarked\fR only for unmarked objects.  Thus to generate output similar
+to that in the previous example, the appropriate command is:
+.in 8
+.nf
+:gmarked "%3d  %6d  %5.2f  %4.2f  %5.2f  %4.2f" \
+         FILE SEQUENCE NSER U-J err J-F err
+.fi
+.in -8
+The format string must be delimited by double quotes.  The format string
+may be excluded, giving a default free formatting.
+Since functions are separated by
+whitespace, any functions containing whitespace must be enclosed in double
+quotes.
+
+GTOOLS is used for all of the graphs, thus most of the facilities of GTOOLS are
+available for reformatting the graphs.  Each graph key ('h', 'i', 'j', 'k',
+and 'l'), as well as the histogram facility, is running its own separate
+GTOOLS, so the individual graphs can be formatted separately.  This is a very
+convenient utility.  The user is encouraged to learn GTOOLS in order to
+fully realize the formatting capabilities of the program.  In particluar,
+the ":/xwindow" and ":/ywindow" commands can be used to set the graph windows
+(in addition to the 'w' key).  The axis labels and units can be changed with
+":/xlabel", ":/ylabel", ":/xunits", and ":/yunits".  The title strings can be
+changed with ":/title" (which affects the line specifying the selection
+criteria), ":/subtitle" (which affects the line specifying the marker
+definitions in the graphs, and the selection criteria for overplotted
+histograms in histograms), and ":/comments" (which affects the line specifying
+the sizing function in graphs, and the histogram parameters in histograms).
+.ih
+CURSOR MODE
+.ls ?
+Print help.
+.le
+.ls b
+Plot a histogram of the data.  The user will be prompted for the function to
+bin.  While in histogram mode, the following keystrokes are active:
+.ls ?
+Print help.
+.le
+.ls a
+Toggle autoscaling of integer data.
+.le
+.ls d
+Apply the current sample definition parameters to bin a new sample.  The new
+sample will be retained when the histogram facility is exitted and control is
+returned to the two-dimensional plots.
+This is the same command as the 'd' cursor command
+available from the main set of cursor tasks.  See below for a fuller
+discussion of its operation.
+.le
+.ls f
+Select a new function to histogram.
+.le
+.ls i
+Toggle the integrate switch.  By default, the counts per bin are plotted as a
+histogram.  If preferred, the integrated counts may be plotted, so that the
+first bin contains the total counts in the first bin only, the second bin
+contains the total counts in the first and second bins, and so on.  This
+switch toggles between the two options.  When plotting integrated counts, the
+y-axis label will read "integrated count".  When plotting just the counts,
+the y-axis label will read "count".
+.le
+.ls l
+Toggle the log switch.  If the current histogram is linear in counts, this will
+switch it to logarithmic in counts, and vice versa.
+.le
+.ls n
+Show the number of data points in the current sample.
+.le
+.ls o
+Overplot the next histogram.  Up to four histograms can be overplotted, with a
+different line pattern for each.  Only a different sample, or an integrated
+histogram of the same sample, can be overplotted.
+Thus, after using the 'o' keystroke, use the 'd' keystroke to select the new
+sample and overplot its histogram, or the 'i' keystroke to overplot the
+integrated histogram.
+Choosing a different function via the 'f' keystroke will turn off the
+overplotting.  Changing the histogram parameters (z1, z2, nbins, autoscaling)
+between the 'o' and 'd' keystrokes will also turn off the overplotting.
+.le
+.ls p
+Toggle the plot type (line or box).
+.le
+.ls q
+Quit histogram mode.
+.le
+.ls r
+Replot the histogram.
+.le
+.ls t
+Toggle whether the top bin is closed or not.
+.le
+.ls w
+Window the graph.  For help type 'w' followed by '?'.
+.le
+.ls x
+Remove the header info from all plots.  This will yield a blank header, useful
+when making publication quality plots.  Alternatively, individual parts of the
+header can be removed from the current plot only using the GTOOLS colon
+commands ":/sysid no", ":/parameters", ":/title", ":/subtitle", and
+":/comments".
+.le
+.ls All other keys
+Print the position of the cursor.
+.le
+
+All of the colon commands available in the main cursor tasks are available
+here.  In addition, the following colon command is also available:
+.ls :list [filename]
+List the upper and lower and bounds, and the counts, for each bin.
+.le
+.le
+.ls c
+Print the KEY field value and x- and y-axis values of the data point nearest
+the cursor.
+.le
+.ls d
+Apply the current sample definition parameters to graph a new sample.
+Parameters can be changed with the colon commands, but the new values
+aren't used until this cursor command is executed.  The sample definition for
+the graphed data is always displayed in the graph header.
+.le
+.ls f
+Set the parameters \fIxcenter\fR and \fIycenter\fR to the current cursor
+position, supplying an easy way to mark the center of a field.
+.le
+.ls g
+Redefine a graph key.  The user is prompted for the graph key to redefine,
+and then for the new graph key description.  The graph key description should
+be entered in the same format as for the graph key description file.
+.le
+.ls h, i, j, k, l
+Graph the functions assigned to the specified graph key.
+.le
+.ls m
+Mark the data point nearest to the cursor (with the marker specified by
+\fImmarker\fR).
+.le
+.ls n
+Show the number of data points in the current sample.
+.le
+.ls o
+Toggle whether the current graph key has square axes.  If the graph key has
+square axes, then the viewport is scaled such that the same distance between
+two points on the x- or y-axis will give the same physical separation on the
+screen.  The default is to not have square axes, but rather to fill the
+viewport.
+.le
+.ls p
+Print the complete database information for the data point nearest the cursor.
+.le
+.ls q
+Exit the program.  Carriage return will also exit.
+.le
+.ls r
+Redraw the graph
+.le
+.ls s
+Place the cursor on the data point with the specified KEY field value.
+The user is prompted for the desired entry's KEY field value.
+.le
+.ls t
+Draw a circle centered on the cursor position.  The user is prompted for
+the circle radius in WCS.
+.le
+.ls u
+Unmark the marked point nearest to the cursor.
+.le
+.ls w
+Set the graph window.  For help type 'w' followed by '?'.
+.le
+.ih
+COLON COMMANDS
+
+The selection parameters are listed or set with the following commands, which
+may be abbreviated.  To list the value of a parameter type the command alone.
+.ls :cutoffX [value]
+Set or show the Xth sample cutoff definition, where X is either 1, 2, 3, or 4.
+If value = "" (i.e :cutoff1 "") then the parameter is cleared.
+.le
+.ls :cX [value]
+Set or show the Xth sample cutoff definition, where X is either 1, 2, 3, or 4.
+Same as \fI:cutoffX\fR, but easier to type.
+.le
+.ls :logic [value]
+Set or show the logic used to combine sample cutoff definitions.
+.le
+.ls :markerX [value]
+Set or show the Xth marker definition, where X is in the range 1 - 8.
+If value = "" (i.e :marker1 "") then the parameter is cleared.
+.le
+.ls :mX [value]
+Set or show the Xth marker definition, where X is in the range 1 - 8.
+Same as \fI:markerX\fR, but easier to type.
+.le
+.ls :colorX [value]
+Set or show the Xth color definition, where X is in the range 1 - 8.
+If value = "" (i.e :color1 "") then the parameter is cleared.
+.le
+.ls :lX [value]
+Set or show the Xth color definition, where X is in the range 1 - 8.
+Same as \fI:colorX\fR, but easier to type.
+.le
+.ls :def_marker [value]
+Set or show the default marker.
+.le
+.ls :mmarker [value]
+Set or show the marker used to mark objects.
+.le
+.ls :xsize [value]
+Set or show the function used to determine marker x-axis sizes for those graph
+keys which don't have a specific x-axis or y-axis sizing function assigned
+(via the "xsize" and "ysize" flags in the graph key description).
+If set, then the markers will be immediately resized.
+.le
+.ls :ysize [value]
+Set or show the function used to determine marker y-axis sizes for those graph
+keys which don't have a specific x-axis or y-axis sizing function assigned
+(via the "xsize" and "ysize" flags in the graph key description).
+If set, then the markers will be immediately resized.
+.le
+.ls :sorter [value]
+Set or show the sorting function.
+.le
+.ls :field [value]
+Set or show the field cutoff style.
+.le
+.ls :xcenter [value]
+Set or show the x-axis field center.
+.le
+.ls :ycenter [value]
+Set or show the y-axis field center.
+.le
+.ls :radius [value]
+Set or show the field radius.
+.le
+.ls :max_size [value]
+Set or show the maximum marker size in NDC units.  The markers will be
+immediately resized.
+.le
+.ls :min_size [value]
+Set or show the minimum marker size in NDC units.  The markers will be
+immediately resized.
+.le
+.ls :outformat [value]
+Set or show the file specifying the output format.
+.le
+.ls :outliers [value]
+Set or show whether or not to mark objects outside the graph limit.
+.le
+.ls :nbins [value]
+Set or show the number of bins in the histogram.
+.le
+.ls :z1 [value]
+Set or show the minimum histogram intensity.
+.le
+.ls :z2 [value]
+Set or show the maximum histogram intensity.
+.le
+
+The following additional commands are also available.
+.ls :show
+Show all of the parameters.
+.le
+.ls :all output_file [format_file]
+Print out data for the entire sample to the specified output file, using the
+output format specified by "format_file".  If no format file is specified,
+then the format file is taken from the parameter \fIoutformat\fR.  If that
+parameter is empty, or if "format_file" is equal to "DATABASE", then the data
+is output in the format of the database.  If the output file is "STDOUT", then
+the data is printed to the screen.
+.le
+.ls :marked output_file [format_file]
+Same as ":all", but only data for marked points is output.
+.le
+.ls :unmarked output_file [format_file]
+Same as ":all", but only data for unmarked points is output.
+.le
+.ls :gall [format_string] output_file function1 [function2 ...]
+Print out the values of the specified functions for each entry in the
+sample, using the format specified by the format string.
+If no format string is given then a default free formatting is used.
+If the output file is "STDOUT", then the data is printed to the screen.
+.le
+.ls :gmarked [format_string] output_file function1 [function2 ...]
+Same as ":gall", but only data for marked points is output.
+.le
+.ls :gunmarked [format_string] output_file function1 [function2 ...]
+Same as ":gall", but only data for unmarked points is output.
+.le
+.ls :rkeys [file]
+Read a graph key description file to redefine the graph keys.
+The new definitions take place immediately.
+.le
+.ls :wkeys [file]
+Write the current graph key definitions to a file.  If no file is specified,
+then the output is to the screen.
+.le
+.ls :replace file field1 [field2 ...]
+Replace the specified fields with the values in the specified file.
+Each line in the file must consist of the KEY field value of the entry whose
+values are to be replaced, followed by the replacement values in the same
+order as the order of fields specified in the command line, all separated
+by whitespace.  The KEY field name should not be specified on
+the command line.  Changes are not automatically saved.  In order to save the
+changes, a new copy of the database must be made (i.e. :all new_database).
+For example, to replace the J and F magnitudes (assumed to be
+fields "J" and "F") for two objects in the database whose serial
+numbers are 123 and 451, the command is ":replace filename J F".  The file
+should look like:
+.in 8
+.nf
+# NSER J    F
+123  15.3  16.0
+451  18.9  20.
+.fi
+.in -8
+Thus 15.3 and 16.0 are the new J and F values, respectively, for the object
+123.  Comment and blank lines in the file are ignored.
+The file may be STDIN to allow keyboard entry of the replacement values.
+.le
+.ls :rmarks file
+Read a list of KEY field values from a file, and mark those objects.  The first
+item on each line of the file should be the KEY field value of an object to
+mark.  The remainder of each line is ignored.  Comment and blank lines are
+also ignored.
+.le
+
+Additionally, most of the GTOOLS colon commands are available.
+.ih
+SEE ALSO
+gtools, images.imhistogram
+.ih
+BUGS AND LIMITATIONS
+Because the databases are currently limited to text files, reading in the
+database when the program starts can take a while.  Once in the program,
+however, different subsamples can be selected quickly, since the database is
+stored in memory.  Because the database is read into memory, there is a limit
+on the size of the database.  On a SPARCstation1, with 8 Mb of memory, I've
+run out of memory when the databases get bigger than about 3 Mb (each char
+occupies two bytes, each real and int occupies 4 bytes).
+.endhelp

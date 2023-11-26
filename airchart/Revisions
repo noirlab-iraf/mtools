@@ -1,0 +1,7 @@
+6/12/96	Added equinox to each input coordinate.
+5/20/96	Updated glabax.h and glabax.x to match new IRAF2.10.4 versions.
+2/17/93	Changed range allowed for parameter time_zone from 1-24 to 0-24.
+3/15/89	Numerous changes.
+	1) Axis labelled modulus 24.
+	2) Labelling bug fixed.
+	3) Object labels positioned so as hopefully to avoid overlap.

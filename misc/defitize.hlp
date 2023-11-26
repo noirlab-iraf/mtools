@@ -1,0 +1,22 @@
+.help defitize Feb96 mtools
+.ih
+NAME
+defitize -- Convert all FITS files ("*.fit") in current directory and its subdirectories to images.
+.ih
+USAGE
+defitize
+.ih
+DESCRIPTION
+Converts all FITS files in the current directory and its subdirectories with
+suffix ".fit" to images, restoring the previous
+IRAF name for the image, and then deletes the FITS files.
+.ih
+BUGS AND LIMITATIONS
+Assumes that all files with suffix ".fit" are FITS files, and that they
+were all formerly IRAF images so that they have an old IRAF name.  If these
+conditions aren't true, errors will occur.  The \fBdataio\fR package must be
+loaded before running this task.
+.ih
+SEE ALSO
+fitize
+.endhelp

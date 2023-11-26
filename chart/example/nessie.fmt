@@ -1,0 +1,2 @@
+FORMAT "%6d    %9.3f   %5.2f %5.2f  %12.3h +%11.2h"
+LOOP SEQUENCE NSER J F RA DEC

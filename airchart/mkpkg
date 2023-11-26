@@ -1,0 +1,25 @@
+# Make AIRCHART
+
+$call	relink
+$exit
+
+update:
+	$call	relink
+	$call	install
+	;
+
+relink:
+	$set	LIBS = "-lxtools"
+	$omake	airchart.x
+	$omake	asttimes.x
+	$omake	astprecess.x
+	$omake	glabax.x
+	$omake	glbencode.x
+	$link	airchart.o asttimes.o astprecess.o glabax.o glbencode.o \
+		$(LIBS) -o xx_airchart.e
+	;
+
+install:
+#	$move	xx_airchart.e	mtoolsbin$x_airchart.e
+	$move	xx_airchart.e	../bin$(arch)/x_airchart.e
+	;

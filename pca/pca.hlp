@@ -1,0 +1,25 @@
+.help pca Aug92 mtools
+.ih
+NAME
+pca -- Principal components analysis
+.ih
+USAGE
+pca < input
+.ih
+PARAMETERS
+.ls method = "correlation"
+Perform the analysis on either the correlation matrix ("correlation"), the
+covariance matrix ("covariance"), or the sums of squares and cross-products
+matrix ("sums").
+.le
+.ls verbose = no
+Print projections?
+.le
+.ih
+DESCRIPTION
+PCA performs a principal components analysis on the standard input and prints
+the results to the standard output.  Each line of the input consists of a
+blank separated list of the values for one entry, with one entry per line.
+The algorithm was taken from Murtagh, F. and Heck, A. 1987, "Multivariate
+Data Analysis", pp. 34-48.
+.endhelp

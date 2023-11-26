@@ -1,0 +1,16 @@
+Graph title string:
+    GTPARAMS	Database file name
+    GTTITLE	Selection criteria
+    GTSUBTITLE	Marker definitions
+    GTCOMMENTS	Sizer parameter
+
+Histogram title string:
+    GTPARAMS	Database file name
+    GTTITLE	Selection criteria
+    GTSUBTITLE	Selection criteria for overplotted histograms
+    GTCOMMENTS	Histogram parameters (z1, z2, nbins, top-closed, nindef)
+
+When adding a new function or arithmetic operator, changes must be made to:
+    gettoken.x
+    parse.x	specifically to procedure pop_op
+    evaluate.gx

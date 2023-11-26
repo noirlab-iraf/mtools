@@ -1,0 +1,16 @@
+# STRIP.MTOOLS -- Rmfiles command script, used to strip the MTOOLS directories
+# of all files not required for ordinary runtime use of the system.
+
+airchart	-allbut .hlp .hd .men .cl .par .key .dat .mip .fits
+chart		-allbut .hlp .hd .men .cl .par .key .dat .mip .fits
+gki2mng		-allbut .hlp .hd .men .cl .par .key .dat .mip .fits
+misc		-allbut .hlp .hd .men .cl .par .key .dat .mip .fits
+mysplot		-allbut .hlp .hd .men .cl .par .key .dat .mip .fits
+pca		-allbut .hlp .hd .men .cl .par .key .dat .mip .fits
+
+# Sun/IRAF only.
+# ---------------
+-file bin.f68881/OBJS.arc.Z
+-file bin.ffpa/OBJS.arc.Z
+-file bin.sparc/OBJS.arc.Z
+-file bin.i386/OBJS.arc.Z
